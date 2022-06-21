@@ -6,6 +6,7 @@ import (
 
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/joho/godotenv"
+	akafka "github.com/pellizzetti/fsfc-simulator/application/kafka"
 	"github.com/pellizzetti/fsfc-simulator/infra/kafka"
 )
 
@@ -22,5 +23,6 @@ func main() {
 	go consumer.Consume()
 	for msg := range msgChan {
 		fmt.Println(string(msg.Value))
+		go akafka.Produce(msg)
 	}
 }
