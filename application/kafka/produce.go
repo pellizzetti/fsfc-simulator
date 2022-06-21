@@ -6,12 +6,12 @@ import (
 	"os"
 	"time"
 
-	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/pellizzetti/fsfc-simulator/application/route"
 	"github.com/pellizzetti/fsfc-simulator/infra/kafka"
+	kafkago "github.com/segmentio/kafka-go"
 )
 
-func Produce(msg *ckafka.Message) {
+func Produce(msg *kafkago.Message) {
 	producer := kafka.NewKafkaProducer()
 	route := route.NewRoute()
 	json.Unmarshal(msg.Value, &route)

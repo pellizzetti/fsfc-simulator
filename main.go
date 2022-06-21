@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/joho/godotenv"
 	akafka "github.com/pellizzetti/fsfc-simulator/application/kafka"
 	"github.com/pellizzetti/fsfc-simulator/infra/kafka"
+	kafkago "github.com/segmentio/kafka-go"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func init() {
 }
 
 func main() {
-	msgChan := make(chan *ckafka.Message)
+	msgChan := make(chan *kafkago.Message)
 	consumer := kafka.NewKafkaConsumer(msgChan)
 	go consumer.Consume()
 	for msg := range msgChan {
