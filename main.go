@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"os"
 
+	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/joho/godotenv"
 	"github.com/pellizzetti/fsfc-simulator/infra/kafka"
 )
@@ -16,17 +17,10 @@ func init() {
 }
 
 func main() {
-	producer := kafka.NewKafkaProducer()
-	topic := os.Getenv("KAFKA_READ_TOPIC")
-	kafka.Publish("ola", topic, producer)
-	for {
-		_ = 1
+	msgChan := make(chan *ckafka.Message)
+	consumer := kafka.NewKafkaConsumer(msgChan)
+	go consumer.Consume()
+	for msg := range msgChan {
+		fmt.Println(string(msg.Value))
 	}
-	// route := route.Route{
-	// 	ID:       "1",
-	// 	ClientID: "1",
-	// }
-	// route.LoadPositions()
-	// stringJSON, _ := route.ExportJSONPositions()
-	// fmt.Println(stringJSON[1])
 }
