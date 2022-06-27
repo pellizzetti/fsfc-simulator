@@ -22,6 +22,6 @@ func Produce(msg *kafkago.Message) {
 	}
 	for _, p := range positions {
 		kafka.Publish(p, os.Getenv("KAFKA_PRODUCE_TOPIC"), producer)
-		time.Sleep(time.Millisecond * 500)
+		time.Sleep(time.Millisecond * 300)
 	}
 }
